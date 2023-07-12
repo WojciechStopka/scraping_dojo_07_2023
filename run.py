@@ -9,9 +9,13 @@ class QuotesScraper:
 
 	def __init__(self):
 		load_dotenv()
-		self.user = os.getenv("PROXY").split(":")[0]
-		self.password = os.getenv("PROXY").split(":")[1].split("@")[0]
-		self.proxy = os.getenv("PROXY").split("@")[1]
+		self.user = str(os.getenv("PROXY")).split(":")[0]
+		self.password = str(os.getenv("PROXY")).split(":")[1].split("@")[0]
+		with open(".env") as f:
+			lines = f.readlines()
+			if len(lines) >= 2:
+				self.port = str(lines[1].strip())
+		self.proxy = str(os.getenv("PROXY")).split("@")[1] + self.port
 		self.input_url = os.getenv("INPUT_URL")
 		self.output_file = os.getenv("OUTPUT_FILE")
 		self.proxies = {
